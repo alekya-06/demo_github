@@ -22,8 +22,13 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "24f2000039@ds.study.iitm.ac.in"
 
+      
       - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git add last_run.txt
-          git commit -m "Automated daily commit - $(date)"
-          git push
+          git commit -m "Automated daily commit - $(date)" || exit 0
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git main
+
+        
